@@ -60,6 +60,7 @@ export default class PizzaService {
     update = async (pizza) => {
         let rowsAffected = 0
         console.log('Estoy en PizzaService.Update(pizza)')
+        console.log(pizza);
         try{
             let pool = await sql.connect(config);
             let result = await pool.request()
@@ -70,7 +71,7 @@ export default class PizzaService {
                                 .input('Descripcion', sql.VarChar, pizza.descripcion)
                                 .query('UPDATE Pizzas SET Nombre = @Nombre, LibreGluten = @LibreGluten, Importe = @Importe, Descripcion = @Descripcion WHERE Id = @Id');
             rowsAffected = result.rowsAffected;
-            console.log('Pizza creada')
+            console.log('Pizza updateada')
 
         } catch (error){
             console.log(error)
@@ -84,7 +85,7 @@ export default class PizzaService {
         let rowsAffected=0;
         console.log('Estoy en: PizzaService.deleteById(id)');
         try {
-            let pool= await sql.cnonect(config);
+            let pool= await sql.connect(config);
             let result = await pool.request()
                                     .input('pId', sql.Int,id)
                                     .query('DELETE FROM Pizzas WHERE id=@pId');
