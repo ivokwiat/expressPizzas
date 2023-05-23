@@ -1,16 +1,16 @@
 import config from '../../dbconfig.js';
 import sql from 'mssql';
 
-
-export default class PizzaService {
+ export default class PizzaService {
     getAll = async () => {
         let returnAll=null;
         console.log('Estoy en: PizzaService.getAll()');
+
         try {
             let pool= await sql.connect(config);
             let result = await pool.request()
                                     .query('SELECT * FROM Pizzas');
-            returnAll=result.recordsets[0];   
+            returnAll=result.recordset;   
         } catch (error) {
             console.log(error);
             
@@ -28,7 +28,8 @@ export default class PizzaService {
             let result = await pool.request()
                                     .input('pId', sql.Int,id)
                                     .query('SELECT * FROM Pizzas WHERE id=@pId');
-            returnEntity=result.recordsets[0][0];   
+            //returnEntity=result.recordsets[0][0];   
+            returnEntity=result.recordset[0];   
         } catch (error) {
             console.log(error);
             
@@ -36,6 +37,7 @@ export default class PizzaService {
        return returnEntity;
 
     }
+
 
     insert = async (pizza) => {
         let rowsAffected = 0;
@@ -56,6 +58,7 @@ export default class PizzaService {
         }
         return rowsAffected
     }
+    
 
     update = async (pizza) => {
         let rowsAffected = 0
@@ -64,12 +67,15 @@ export default class PizzaService {
         try{
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                .input('Id', sql.int, pizza.id)
-                                .input('Nombre', sql.VarChar, pizza.nombre)
-                                .input('LibreGluten', sql.Bit, pizza.libreGluten)
-                                .input('Importe', sql.Float, pizza.importe)
-                                .input('Descripcion', sql.VarChar, pizza.descripcion)
-                                .query('UPDATE Pizzas SET Nombre = @Nombre, LibreGluten = @LibreGluten, Importe = @Importe, Descripcion = @Descripcion WHERE Id = @Id');
+                .input('pNombre'     , sql.NChar , pizza?.Nombre ?? '')
+                .input('pLibreGluten', sql.Bit   , pizza?.LibreGluten ?? false)
+                .input('pImporte'    , sql.Float , pizza?.Importe ?? 0)
+                .input('pDescripcion', sql.NChar , pizza?.Descripcion ?? '')
+                .input('pId'         , sql.Int   , pizza?.Id ?? 0)
+                .input('pOriginalId' , sql.Int   , id ?? 0)
+                .query(`UPDATE Pizzas SET Nombre=@pNombre, LibreGluten=@pLibreGluten, Importe=@pImporte, Descripcion=@pDescripcion WHERE Id=@pOriginalId`);
+            
+
             rowsAffected = result.rowsAffected;
             console.log('Pizza updateada')
 
@@ -80,6 +86,8 @@ export default class PizzaService {
 
 
     }
+
+
 
     deleteById = async (id) => {
         let rowsAffected=0;
@@ -97,4 +105,5 @@ export default class PizzaService {
        return rowsAffected;
 
     }
-}
+
+ }

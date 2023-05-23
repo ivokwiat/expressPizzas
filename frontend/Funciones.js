@@ -5,8 +5,7 @@ function getAll(){
   console.log('getAll: ', url);
   axios.get(url)
     .then((response) => {
-      console.log(response.data);
-      //console.log(response.status);
+            //console.log(response.status);
       //console.log(response.statusText);
       //console.log(response.headers);
       //console.log(response.config);
@@ -25,6 +24,7 @@ function displayPizzas(pizzas){
   let table = '<table class="table table-striped table-hover">';
   table += `<thead class="table-dark"><tr><th class="col-1 text-center">Id</th><th class="col-3">Nombre</th><th class="col-5">Descripcion</th><th class="col-2 text-center">Importe</th><th class="col-1 text-center">Libre Gluten</th></tr></thead>`;
   pizzas.forEach((unPizza, index) => {
+    console.log('1');
     table += `<tr>`;
     table += `<td scope="col" class="text-center">${unPizza.Id}</td>`;
     table += `<td scope="col">${unPizza.Nombre}</td>`;
@@ -34,6 +34,7 @@ function displayPizzas(pizzas){
     table += `</tr>`;
   });
   table += "</table>";
+  console.log(table);
   document.getElementById("pizzas-list").innerHTML = table;
 }
 
