@@ -1,10 +1,14 @@
-class Pizza
-{
-    id;
-    nombre;
-    libredeGluten;
-    importe;
-    descripcion;
+class Pizza {
+    Id;
+    Nombre;
+    LibreGluten;
+    Importe;
+    Descripcion;
 }
 
 export default Pizza;
+
+
+
+
+

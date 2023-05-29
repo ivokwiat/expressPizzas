@@ -1,19 +1,19 @@
 {
-  "name": "nodepizzanuevo",
+  "name": "app-04-express-sql-router",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ejemplo de API con express que accede a SQL Server, utiliza env y tiene un FrontEnd",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "index": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "mssql": "^9.1.1"
+    "http-status-codes": "^2.2.0",
+    "mssql": "^8.1.1"
   }
 }
