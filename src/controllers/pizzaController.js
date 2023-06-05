@@ -1,14 +1,18 @@
 import { Router} from 'express';
 import PizzaService from '../services/pizzas-services.js';
+import IngredientesService from '../services/ingredientes-services.js';
 import { ReasonPhrases, StatusCodes} from 'http-status-codes';
 
 const router = Router();
 const pizzaService = new PizzaService();
+const ingredientesService = new IngredientesService();
 
-router.get('', async (req, res) => {
+router.get('/', async (req, res) => {
   let respuesta;
+
   const pizzas = await pizzaService.getAll();
-  if (pizza!=null){
+  if (pizzas!=null){
+    console.log(pizzas);
     respuesta = res.status(StatusCodes.OK).json(pizzas);
   } else {
     respuesta = res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error interno.`);
@@ -24,6 +28,10 @@ router.get('/:id', async (req, res) => {
   const pizza = await pizzaService.getById(id);
 
   if (pizza!=null){
+    console.log(pizza);
+    //let ingre = ingredientesService.getByPizza(id);
+    let ingre = [{id: 1, nombre : 'cebolla'}, {id: 2, nombre : 'tmarte'}];
+    pizza.ingredientes = ingre;
     respuesta = res.status(StatusCodes.OK).json(pizza);
   } else {
     respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro la Pizza (id:${id}).`);
