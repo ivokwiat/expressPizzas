@@ -17,8 +17,24 @@ class IngredientesService {
         return returnArray;
     }
 
-    getById = async (id) => {
+    getByIdPizzas = async (id) => {
+        let returnArray = null;
+        let sqlText = "";
         let returnEntity = null;
+        sqlText = ` SELECT 
+                            ingredientesXPizza.Id AS Id,
+                            Ingredientes.Id AS IdIngrediente,
+                            Ingredientes.Nombre AS Nombre,
+                            IngredientesXPizzas AS Cantidad,
+                            Unidades.Id AS IdUnidad
+                    FROM Ingredientes
+                    INNER JOIN IngredientesXPizzas ON IngredientesXPizzas.IdIngrediente = Ingrediente.Id
+                    INNER JOIN Unidades ON IngredientesXPizzas.IdUnidad = Unidades.Id
+                    WHERE IngredientesXPizzas.IdPizza = @pId
+                    `;
+
+
+
 
         incluirIngredientes = incluirIngredientes || false;
         //si viene por default
@@ -28,15 +44,10 @@ class IngredientesService {
             let pool   = await sql.connect(config);
             let result = await pool.request()
                                 .input('pId', sql.Int, id)
-                                .query('SELECT * FROM Pizzas WHERE Id = @pId');
-            returnEntity = result.recordset[0];
+                                .query(sqlText);
+            returnEntity = result.recordsets;
 
         //si quiere incluir ingredientes
-
-        if((returnEntity != null) && (incluirIngredientes)){
-            let svc = new ingredientesService[];
-            returnEntity.ingredientes = await svc.getByIdPizza[id];        
-        }
         } catch (error) {
             logHelper.logError('PizzaService->getById', error);
         }
