@@ -1,9 +1,10 @@
 import config from './../../dbconfig.js';
 import sql from 'mssql';
 import logHelper from './../modules/log-helper.js';
+import IngredientesService from './ingredientes-services.js';
 
 class PizzaService {
-    getAll = async () => {
+    getAll = async (incluirIngredientes) => {
         let returnArray = null;
         
         try {
@@ -14,13 +15,16 @@ class PizzaService {
         catch (error) {
             logHelper.logError('PizzaService->getAll', error);
         }
+        if (returnArray !== null && incluirIngredientes === true){
+            let svc = new IngredientesService 
+            returnArray.Ingredientes = await svc.getAll(id)
+        }
         return returnArray;
     }
 
-    getById = async (id) => {
+    getById = async (id, incluirIngredientes) => {
         let returnEntity = null;
 
-        
 
         try {
             let pool   = await sql.connect(config);
@@ -31,6 +35,15 @@ class PizzaService {
         } catch (error) {
             logHelper.logError('PizzaService->getById', error);
         }
+
+
+        if (returnEntity !== null && incluirIngredientes === true){
+            let svc = new IngredientesService 
+            returnEntity.Ingredientes = await svc.getById(id)
+        }
+
+
+
         return returnEntity;
     }
 

@@ -13,6 +13,11 @@ router.get('/', async (req, res) => {
   const pizzas = await pizzaService.getAll();
   if (pizzas!=null){
     console.log(pizzas);
+    let ingre = ingredientesService.getAllPizzas();
+    //let ingre = [{id: 1, nombre : 'cebolla'}, {id: 2, nombre : 'tmarte'}];
+    pizzas.ingredientes = ingre;
+    respuesta = res.status(StatusCodes.OK).json(pizzas);
+
     respuesta = res.status(StatusCodes.OK).json(pizzas);
   } else {
     respuesta = res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error interno.`);
@@ -29,8 +34,8 @@ router.get('/:id', async (req, res) => {
 
   if (pizza!=null){
     console.log(pizza);
-    //let ingre = ingredientesService.getByPizza(id);
-    let ingre = [{id: 1, nombre : 'cebolla'}, {id: 2, nombre : 'tmarte'}];
+    let ingre = ingredientesService.getByIdPizzas(id);
+    //let ingre = [{id: 1, nombre : 'cebolla'}, {id: 2, nombre : 'tmarte'}];
     pizza.ingredientes = ingre;
     respuesta = res.status(StatusCodes.OK).json(pizza);
   } else {

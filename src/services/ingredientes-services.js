@@ -3,7 +3,7 @@ import sql from 'mssql';
 import logHelper from './../modules/log-helper.js';
 
 class IngredientesService {
-    getAll = async () => {
+    getAllPizzas = async () => {
         let returnArray = null;
         
         try {
