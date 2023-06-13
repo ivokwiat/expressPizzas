@@ -3,6 +3,10 @@ import sql from 'mssql';
 import logHelper from './../modules/log-helper.js';
 import IngredientesService from './ingredientes-services.js';
 
+
+const Is = new IngredientesService();
+
+
 class PizzaService {
     getAll = async (incluirIngredientes) => {
         let returnArray = null;
@@ -17,12 +21,12 @@ class PizzaService {
         }
         if (returnArray !== null && incluirIngredientes === true){
             let svc = new IngredientesService 
-            returnArray.Ingredientes = await svc.getAll(id)
+            returnArray.Ingredientes = await svc.getAll()
         }
         return returnArray;
     }
 
-    getById = async (id, incluirIngredientes) => {
+    getById = async (id) => {
         let returnEntity = null;
 
 
@@ -32,17 +36,10 @@ class PizzaService {
                                 .input('pId', sql.Int, id)
                                 .query('SELECT * FROM Pizzas WHERE Id = @pId');
             returnEntity = result.recordset[0];
+            returnEntity.Ingredientes =await Is.getByIdPizza(id)
         } catch (error) {
             logHelper.logError('PizzaService->getById', error);
         }
-
-
-        if (returnEntity !== null && incluirIngredientes === true){
-            let svc = new IngredientesService 
-            returnEntity.Ingredientes = await svc.getById(id)
-        }
-
-
 
         return returnEntity;
     }

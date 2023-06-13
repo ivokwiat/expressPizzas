@@ -18,7 +18,6 @@ class IngredientesService {
     }
 
     getByIdPizzas = async (id) => {
-        let returnArray = null;
         let sqlText = "";
         let returnEntity = null;
         sqlText = ` SELECT 
@@ -32,20 +31,16 @@ class IngredientesService {
                     INNER JOIN Unidades ON IngredientesXPizzas.IdUnidad = Unidades.Id
                     WHERE IngredientesXPizzas.IdPizza = @pId
                     `;
-
-
-
-
-        incluirIngredientes = incluirIngredientes || false;
-        //si viene por default
-
-
         try {
             let pool   = await sql.connect(config);
             let result = await pool.request()
-                                .input('pId', sql.Int, id)
-                                .query(sqlText);
+            .input('pId', sql.Int, id)
+            .query(sqlText);
             returnEntity = result.recordsets;
+
+            returnEntity.forEach(i => {
+                returnEntity[result.recordsets[i].Unidad[i]] = Unis.getByUnidad(returnEntity[0].IdUnidad);   
+            });
 
         //si quiere incluir ingredientes
         } catch (error) {
