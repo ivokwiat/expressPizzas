@@ -1,8 +1,10 @@
 // npm run server
 import 'dotenv/config'
 import express from "express";
-import cors    from "cors";
+import cors from "cors";
 import PizzaRouter from "./src/controllers/pizzaController.js";
+import IngredientesXPizzaRouter from "./src/controllers/IngredientesXPizzaController.js"
+import UnidadesRouter from "./src/controllers/UnidadesController.js"
 
 //
 // Variables/Constantes del Modulo
@@ -17,12 +19,12 @@ app.use(cors());                              // Agrego el middleware de CORS
 app.use(express.json());                      // Agrego el middleware para parsear y comprender JSON
 app.use('/front', express.static('public'));  // Agrego el middleware de retornar archivos estaticos, montando 
                                               //  en http://localhost:5000/front lo que existe en la carpeta "public"
-
 // 
 // Endpoints (todos los Routers)
 //
 app.use("/api/pizzas", PizzaRouter);
-
+app.use("/api/ingredientesXPizzas", IngredientesXPizzaRouter);
+app.use("/api/unidades", UnidadesRouter);
 //
 // Levanto el servidor WEB (pongo a escuchar)
 //

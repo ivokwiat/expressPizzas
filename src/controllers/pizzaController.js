@@ -1,11 +1,11 @@
 import { Router} from 'express';
 import PizzaService from '../services/pizzas-services.js';
-import IngredientesService from '../services/ingredientes-services.js';
+import IngredientesXPizzaService from '../services/IngredientesXPizza-services.js';
 import { ReasonPhrases, StatusCodes} from 'http-status-codes';
 
 const router = Router();
 const pizzaService = new PizzaService();
-const ingredientesService = new IngredientesService();
+const ingredientesXPizzaService = new IngredientesXPizzaService();
 
 router.get('/', async (req, res) => {
   let respuesta;
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   const pizzas = await pizzaService.getAll();
   if (pizzas!=null){
     console.log(pizzas);
-    let ingre = ingredientesService.getAllPizzas();
+    let ingre = ingredientesXPizzaService.getAllPizzas();
     //let ingre = [{id: 1, nombre : 'cebolla'}, {id: 2, nombre : 'tmarte'}];
     pizzas.ingredientes = ingre;
     respuesta = res.status(StatusCodes.OK).json(pizzas);
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
 
   if (pizza!=null){
     console.log(pizza);
-    let ingre = ingredientesService.getByIdPizzas(id);
+    let ingre = ingredientesXPizzaService.getByIdPizzas(id);
     //let ingre = [{id: 1, nombre : 'cebolla'}, {id: 2, nombre : 'tmarte'}];
     pizza.ingredientes = ingre;
     respuesta = res.status(StatusCodes.OK).json(pizza);

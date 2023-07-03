@@ -1,7 +1,7 @@
 import config from './../../dbconfig.js';
 import sql from 'mssql';
 import logHelper from './../modules/log-helper.js';
-import IngredientesService from './ingredientes-services.js';
+import IngredientesService from './IngredientesXPizza-services.js';
 
 
 const Is = new IngredientesService();
