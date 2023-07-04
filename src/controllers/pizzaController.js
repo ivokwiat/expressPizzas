@@ -5,7 +5,7 @@ import { ReasonPhrases, StatusCodes} from 'http-status-codes';
 const router = Router();
 const pizzaService = new PizzaService();
 
-router.get('', async (req, res) => {
+router.get('/', async (req, res) => {
   let respuesta;
   const pizzas = await pizzaService.getAll();
   if (pizzas!=null){

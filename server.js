@@ -14,7 +14,7 @@ import UsuarioService from './src/services/usuarios-services.js';
 const app  = express();
 const port = process.env.HTTP_PORT; // Puerto en donde levanta express (archivo .env)
 
-/*
+
 const horaMiddleware = function (req, res, next) {  
   let tiempo1 = new Date();
   console.log('Tiempo antes: ' + tiempo1.toISOString());  
@@ -30,7 +30,7 @@ const checkTokenExpiration =function(req,res,next){
   console.log(usuario.TokenExpirationDate); 
   next()
   
-  if (usuario.>Date.now) {
+  if (usuario.Date.now) {
     next()
   }
   else{
@@ -56,7 +56,7 @@ const checkApiKey = function  (req, res, next){
 
 
 const headerResponse = function (req, res, next){
-  res.set('Created', 'Luciano, Bautista&Guido');
+  res.set('Created', 'Ivan, Santiago');
   next();
 }
 
@@ -64,7 +64,7 @@ app.use(horaMiddleware);
 app.use(checkTokenExpiration)
 //app.use(checkApiKey);
 app.use(headerResponse);
-*/
+
 //
 // Inclusion de los Middlewares
 //

@@ -38,31 +38,55 @@ export default class UsuarioService {
         }
         return returnEntity;
     }
-    loginUsuario = async (username)=>{
-        let returnEntity = null
-        console.log('Estoy en: usuariosService.loginUsuario(username)');
-        try{
-            let pool =await sql.connect(config)
+
+    getByUserNamePassword  = async (entidad) => {
+        let returnEntity = null;
+        console.log('Estoy en: usuariosService.GetById(id)');
+        try {
+            let pool = await sql.connect(config);
             let result = await pool.request()
-            .input('pUsername',sql.VarChar,username)
-            .query('SELECT * FROM USUARIOS where Username = @pUsername')
+                                    .input('pUserName', sql.VarChar, entidad.UserName)
+                                    .input('pPassword', sql.VarChar, entidad.Password)
+                                    .query('SELECT * FROM Usuarios WHERE UserName = @pUserName AND Password = @pPassword');
             returnEntity = result.recordsets[0][0];
-        
-    } catch (error) {
-        console.log(error);
+
+            //returnEntity.Ingrediente = await IxPs.getByIdPizza(id);
+
+        } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
     }
-    return returnEntity;
+
+
+
+    loginUsuario = async (username)=>{
+        let usuario = this.getByUserNamePassword (username);
+        if (usuario!= null){
+            let token = self.crypto.randomUUID();;
+            let TokenExpirationDate = new Date();
+            TokenExpirationDate.setMinutes(TokenExpirationDate.getMinutes() + 15);
+            this.updateToken(token, TokenExpirationDate)
+            // El usuario SI existe
+        }else{
+
+            // El usuario no existe
+        }
+        return usuario;
     }
-    updateToken=async(token,expirationTime,Id)=>{
+
+
+
+
+    updateToken=async(token,TokenExpirationDate)=>{
         let updateReturn = null;
         console.log('Estoy en: usuariosService.updateToken');
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
                .input('pToken', sql.VarChar, token)
-               .input('pExpirationDate', sql.DateTime, expirationTime)
-               .input('pId',sql.Int,Id)
-               .query('UPDATE USUARIOS set Token = @pToken, TokenExpirationDate = @pExpirationDate where Id=@pId');
+               .input('pExpirationDate', sql.DateTime, TokenExpirationDate)
+               .query('UPDATE USUARIOS set Token = @pToken, TokenExpirationDate = @pExpirationDate where Token=@pToken');
             updateReturn = result.rowsAffected;
         } catch (error) {
             console.log(error);
