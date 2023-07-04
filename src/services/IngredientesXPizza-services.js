@@ -1,8 +1,8 @@
 import config from '../../dbconfig.js';
 import sql from 'mssql';
-import UnidadService  from "./Unidades-services.js"
+import UnidadesService  from './unidades-services.js';
 
-const Unis = new UnidadService();
+const Unis = new UnidadesService();
 
 export default class IngredientesXPizzaService {
     getAll = async () => {
@@ -24,10 +24,10 @@ export default class IngredientesXPizzaService {
                     INNER JOIN Unidades ON IngredientesXPizzas.IdUnidad=Unidades.Id`);
             returnAll = result.recordsets[0];
 
-            returnAll.forEach(i => {
+            /*returnAll.forEach(i => {
                 
                 returnAll[result.recordsets[i]].Unidad[i] = Unis.getByIdUnidad(returnEntity[0].IdUnidad);
-            });
+            });*/
         }
         catch (error) {
             console.log(error);

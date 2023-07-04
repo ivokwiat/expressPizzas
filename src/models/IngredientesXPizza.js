@@ -1,10 +1,10 @@
-class IngredientesXPizza {
-    Id;
-    IdPizza;
-    IdIngredientes;
-    Cantidad;
-    IdUnidad;
+class ingredientesXPizza {
+    id;
+    idPizza;
+    idIngredientes;
+    cantidad;
+    idUnidad;
 }
 
-export default IngredientesXPizza;
+export default ingredientesXPizza;
 

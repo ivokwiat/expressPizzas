@@ -1,5 +1,5 @@
 import { Router} from 'express';
-import IngredientesXPizzaService from '../services/IngredientesXPizza-services.js';
+import IngredientesXPizzaService from '../services/ingredientesXPizza-services.js';
 import { ReasonPhrases, StatusCodes} from 'http-status-codes';
 
 const router = Router();

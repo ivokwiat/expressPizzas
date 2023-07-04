@@ -1,9 +1,9 @@
-class Unidad {
+class unidades {
     id;
     nombre;
 }
 
-export default Unidad;
+export default unidades;
 
 
 
