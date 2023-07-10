@@ -12,7 +12,7 @@ const crearToken= function(){
 
 const tiempoExpiracion = function(){
   const creacionToken = new Date();
-  const expiracionToken = new Date(creacionToken.getTime() + (15 * 60 * 1000));
+  const expiracionToken = new Date(creacionToken.getTime() + (1 * 60 * 1000));
   return expiracionToken;
 }
 

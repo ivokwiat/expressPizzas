@@ -1,11 +1,11 @@
 import { Router} from 'express';
 import PizzaService from '../services/pizzas-services.js';
-import { ReasonPhrases, StatusCodes} from 'http-status-codes';
+import {StatusCodes} from 'http-status-codes';
 
 const router = Router();
 const pizzaService = new PizzaService();
 
-router.get('/', async (req, res) => {
+router.get('', async (req, res) => {
   let respuesta;
   const pizzas = await pizzaService.getAll();
   if (pizzas!=null){

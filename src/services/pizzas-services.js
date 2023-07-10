@@ -18,9 +18,7 @@ export default class PizzaService {
 
             console.log("PRUEBA:" + returnAll[1].Nombre)
 
-            /*returnAll.forEach(i => {
-                returnAll[i].Ingrediente = IxPs.getByIdPizza(i);
-            });*/
+           
 
             returnAll[0].Ingrediente = IxPs.getByIdPizza(0);
             console.log("Ingrediente: " + IxPs.getByIdPizza(0))

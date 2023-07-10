@@ -23,11 +23,6 @@ export default class IngredientesXPizzaService {
                     INNER JOIN Ingredientes ON IngredientesXPizzas.IdIngrediente=Ingredientes.Id
                     INNER JOIN Unidades ON IngredientesXPizzas.IdUnidad=Unidades.Id`);
             returnAll = result.recordsets[0];
-
-            /*returnAll.forEach(i => {
-                
-                returnAll[result.recordsets[i]].Unidad[i] = Unis.getByIdUnidad(returnEntity[0].IdUnidad);
-            });*/
         }
         catch (error) {
             console.log(error);

@@ -1,6 +1,6 @@
 import { Router} from 'express';
 import IngredientesXPizzaService from '../services/ingredientesXPizza-services.js';
-import { ReasonPhrases, StatusCodes} from 'http-status-codes';
+import {StatusCodes} from 'http-status-codes';
 
 const router = Router();
 const ingredientesXPizzaService = new IngredientesXPizzaService();

@@ -1,10 +1,8 @@
 import config from '../../dbconfig.js';
 import sql from 'mssql';
-/*import IngredientesXPizzaService  from './ingredientesXPizza-services.js';
 
-const IxPs = new IngredientesXPizzaService();*/
 
-export default class UnidadesService {
+export default class UnidadService {
     getAll = async () => {
         let returnAll = null;
         console.log("Estoy en: unidadesService.getAll()")

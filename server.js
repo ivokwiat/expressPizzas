@@ -1,4 +1,3 @@
-// npm run server
 import 'dotenv/config'
 import express from "express";
 import cors from "cors";
@@ -7,13 +6,9 @@ import IngredientesXPizzaRouter from "./src/controllers/ingredientesXPizzaContro
 import UnidadesRouter from "./src/controllers/unidadesController.js";
 import UsuariosRouter from "./src/controllers/usuariosController.js";
 import UsuarioService from './src/services/usuarios-services.js';
-
-//
-// Variables/Constantes del Modulo
-//
 const app  = express();
-const port = process.env.HTTP_PORT; // Puerto en donde levanta express (archivo .env)
-
+const port = 5000;
+let svcUsuario=new UsuarioService
 
 const horaMiddleware = function (req, res, next) {  
   let tiempo1 = new Date();
@@ -23,20 +18,26 @@ const horaMiddleware = function (req, res, next) {
   console.log('Tiempo después: ' + tiempo2.toISOString()); 
   console.log("Tiempo que tardó: " + (tiempo2 - tiempo1).toString() + " milisegundo/s");
 } 
-const checkTokenExpiration =function(req,res,next){
+const checkTokenExpiration = async function(req,res,next){
   if(req.path.toLowerCase().startsWith("/api/usuarios/login"))return next();
   let token=req.get("token")
-  let usuario = UsuarioService.checkToken(token)
-  console.log(usuario.TokenExpirationDate); 
-  next()
-  
-  if (usuario.Date.now) {
+  console.log(token);
+  let tiempoAhora= new Date()
+  let usuario =   await svcUsuario.getByToken(token)
+  console.log(usuario);
+  console.log(usuario.TokenExpirationDate);
+  console.log("Tiempo expiracion:"+ usuario.TokenExpirationDate); 
+  console.log("Tiempo ahora:"+tiempoAhora);
+  if (usuario.TokenExpirationDate>=tiempoAhora) {
+    //console.log(usuario.TokenExpirationDate);
+    //console.log(tiempoAhora);
     next()
   }
   else{
     res.status(401).send('NO está autorizado, TOKEN expirado');
   }
     
+
   
 }
 
@@ -65,23 +66,17 @@ app.use(checkTokenExpiration)
 //app.use(checkApiKey);
 app.use(headerResponse);
 
-//
-// Inclusion de los Middlewares
-//
-app.use(cors());                              // Agrego el middleware de CORS
-app.use(express.json());                      // Agrego el middleware para parsear y comprender JSON
-app.use('/front', express.static('public'));  // Agrego el middleware de retornar archivos estaticos, montando 
-                                              //  en http://localhost:5000/front lo que existe en la carpeta "public"
-// 
-// Endpoints (todos los Routers)
-//
+app.use(cors());
+app.use(express.json());
+app.use('/front', express.static('public'));
+
+//endpoint de los routers
+
 app.use("/api/pizzas", PizzaRouter);
 app.use("/api/ingredientesxpizzas", IngredientesXPizzaRouter);
 app.use("/api/unidades", UnidadesRouter);
 app.use("/api/usuarios", UsuariosRouter);
-//
-// Levanto el servidor WEB (pongo a escuchar)
-//
+
 app.listen(port, () => {
   console.log(`"server" escuchando el en el puerto ${port} (http://localhost:${port}/)`);
 });
